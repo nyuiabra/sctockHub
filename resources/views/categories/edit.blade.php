@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@ssection('content')
+@section('content')
 <h1>Créer une categorie</h1>
 
 @if($errors->any())
@@ -20,7 +20,7 @@
 </p>
 @endif
 
-<form action="{{ 'route(categories.update', $category->id)}}" method="post">
+<form action="{{ route('categories.update', $category->id)}}" method="post">
     @csrf
 
     @method('PUT')
