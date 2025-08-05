@@ -14,6 +14,7 @@
 @endif
 
     @foreach ($categories as $category)
+    
     <p>
     <b>Name:</b> {{$category->name}} <br/>
     <b>Description:</b>{{$category->description ? $category->description : "Non rempli"}} <br/>

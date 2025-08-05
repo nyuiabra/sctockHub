@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories =Category::all();
-        return view('categories.index',[
-            'categories' => $categories,
+        $products =Product::all();
+        return view('products.index',[
+            'products' => $products,
         ]);
     }
 
@@ -22,7 +24,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('products.create', [
+        'categories'=>Category::all()
+      
+        ]);
     }
 
     /**
@@ -30,15 +35,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+       $request->validate([
             'name' => 'required|unique:categories|max:225',
         ]);
 
-        Category::create([
+        Product::create([
             'name' =>$request->name,
+            'category_id' =>$request->category_id,
             'description' =>$request->description,
+            'price' =>$request->price,
+            'quantity' =>$request->quantity,
+          
+            
         ]);
-        return redirect()->route('categories.index')->with('success',"Categorie ajoutée avec succes ");
+        return redirect()->route('products.index')->with('success',"Categorie ajoutée avec succes ");
     }
 
     /**
@@ -46,10 +56,9 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category =Category::with('products')->findOrfail($id);
-        return view('categories.show',[
-            'category' => $category,
-            'products' => $category->products,
+         $product =Product::find($id);
+        return view('products.show',[
+            'product' => $product,
         ]);
     }
 
@@ -58,9 +67,10 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-          $category =Category::find($id);
-        return view('categories.edit',[
-            'category' => $category,
+         $product =Product::find($id);
+        return view('products.edit',[
+            'product' => $product,
+             'categories'=>Category::all()
         ]);
     }
 
@@ -69,13 +79,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-          $request->validate([
+           $request->validate([
             'name' => 'required|max:225',
         ]);
 
-       Category::find($id)->update([
+       Product::find($id)->update([
         'name'=>$request->name,
+        'category_id' =>$request->category_id,
         'description'=>$request->description,
+        'price'=>$request->price,
+        'quantity'=>$request->quantity,
 
 
        ]);
@@ -87,7 +100,9 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-      Category::find($id)->delete();
-      return redirect()->route('categories.index')->with('success',"categorie supprimée  avec success");
+        {
+      Product::find($id)->delete();
+      return redirect()->route('products.index')->with('success',"categorie supprimée  avec success");
+    }
     }
 }

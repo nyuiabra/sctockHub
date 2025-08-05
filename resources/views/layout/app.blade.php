@@ -18,6 +18,11 @@
                categories
               </a>
             </li>
+            <li>
+              <a href="{{route('products.index')}}">
+               products
+              </a>
+            </li>
         </ul>
     </nav>
     @yield('content')

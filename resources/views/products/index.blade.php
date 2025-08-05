@@ -1,16 +1,24 @@
 @extends('layout.app')
 
 @section('content')
-<h1>Details de la categorie</h1>
-<b>Name :</b>{{$category->name}} <br/>
-<b>Description:</b>{{$category->description ? $category->description : 'Non rempli.'}} <br/>
+<h1>Liste des produits</h1>
+<a href="{{route('products.create')}}">
+    creer un produit
+</a>
+
+
+@if ($message =Session::get('success'))
+<p>
+    {{$message}}
+</p>
+@endif
 
     @foreach ($products as $product)
     
     <p>
     <b>Name:</b> {{$product->name}} <br/>
     <b>Description:</b>{{$product->description ? $product->description : "Non rempli"}} <br/>
-    <a href="{{ route('products.show', $product->id)}}">
+    <a href="{{ route('products.show' ,$product->id)}}">
     Détails
   </a>
     <a href="{{ route('products.edit' ,$product->id)}}">
