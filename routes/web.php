@@ -3,7 +3,9 @@ use App\Http\Controllers\CategoryController;
 
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProductController;
+use App\Http\Middleware\GuestMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', [MainController ::class , 'home'])->name('home');
 
@@ -29,3 +31,14 @@ Route::put('/products/{id}/update', [ProductController ::class , 'update'])->nam
 Route::delete('/products/{id}/destroy', [ProductController ::class , 'destroy'])->name('products.destroy');
 
 
+Route::middleware([GuestMiddleware::class])->group(function () {
+    // Route::get('/', [MainController::class, 'home'])->name('home');
+    Route::get('/login', [MainController::class, 'login'])->name('login');
+    Route::get('/registration', [MainController::class, 'registration'])->name('registration');
+
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/registration', [AuthController::class, 'registration'])->name('registration');
+});
+  Route::get('/', [MainController::class, 'home'])->name('home')->middleware("auth");;
+// Route::get('/categories', [MainController::class, 'profile'])->name('profile')->middleware("auth");
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

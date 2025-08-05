@@ -8,11 +8,8 @@
 <body>
     <nav>
         <ul>
-            <li>
-             <a href="{{route('home')}}">
-              home
-             </a>
-            </li>
+
+             @if (Auth::check())
             <li>
               <a href="{{route('categories.index')}}">
                categories
@@ -23,7 +20,30 @@
                products
               </a>
             </li>
+              <li>
+                    <a href="{{ route('logout') }}">
+                        Déconnexion
+                    </a>
+                </li>
+            @else
+            <li>
+             <a href="{{route('home')}}">
+              Profile
+             </a>
+            </li>
+            <li>
+             <a href="{{route('login')}}">
+              connexion
+             </a>
+            </li>
+            <li>
+             <a href="{{route('registration')}}">
+              inscription
+             </a>
+            </li>
+             
         </ul>
+           @endif
     </nav>
     @yield('content')
 </body>
